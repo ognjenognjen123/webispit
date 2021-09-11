@@ -1,0 +1,62 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+'Korisnici se registruju unosom imena, prezimena, jedinstvene adrese elektronske pošte, jedinstvenog broja telefona i željene lozinke za nalog. Kada se prijave, imaju mogućnost za popune anketu za prikupljanje podataka o njihovoj visini, telesnoj masi, obimu struka, polu, uzrastu, količini dnevnog unosa hrane (u kcal), kao i o svojim dnevnim navikama (učestalost kretanja, vežbanja, sedenja za stolom ili računarom, stajanja itd), kao i opisa željenih rezultata planiranog treninga i plana ishrane.
+
+' Ove prikupljene podatke iz ankete gledaju jedan trener i jedan nutricionista koji prema sadržaju ankete prave mesečni plan treninga i plan ishrane, respektivno. Svoje planove sastavljaju u direktnom usmenom dogovoru koji se odvija izvan okvira aplikacije. Trener i nutricionista se na aplikaciju prijavljuju sa svojim pristupnim parametrima. Ove dve grupe korisnika se razlikuju samo po svojoj oznaci uloge (trener ili nutricionista) i nisu posebni entiteti u bazi aplikacije.
+
+' Kada i trener i nutricionista popune predložene planove treninga i ishrane za korisnika, korisnik tek tada na svom profilu može da vidi te planove.
+
+ ' Korisnik treba u okviru svog profila redovno da unosi, na dnevnom nivou, na početku dana podatke o izmerenoj telesnoj masi i obimu struka, kao i na kraju dana podatke o izmerenoj telesnoj masi, obimu struka, i o unetoj količini hrane tog dana (okvirno sračunatu u kcal). Na osnovu ovih podataka, trener ili nutricionista povremeno mogu da pregledaju dostupne informacije i mogu da unesu izmenu u tekstu svojih planova treninga i ishrane, a čemu korisnik dobija obaveštenje elektronskom poštom.
+
+title Model baze
+
+entity Osoba {
+  *id : INTEGER <<generisano>>
+  --
+  *tip : ENUM (korisnik, trener, nutricionista)
+  *ime : TINYTEXT
+  *prezime : TINYTEXT
+  *email : TINYTEXT
+  *lozinka : TINYTEXT
+}
+
+entity Anketa {
+  *korisnicki_id : INTEGER <<FK>>
+  --
+  pol : TINYTEXT
+  uzrast : TINYTEXT
+  visina : FLOAT
+  telesna_masa : FLOAT
+  obim_struka : FLOAT
+  kcal : INTEGER
+  opis_dnevnih_navika : TEXT
+  opis_zeljenih_rezultata : TEXT
+}
+
+entity Predlog {
+  *korisnicki_id : INTEGER <<FK>>
+  *specialista_id : INTEGER <<FK>>
+  --
+  predlog : TEXT
+}
+
+entity RedovnaObavestavanja {
+  *id : INTEGER <<generisano>>
+  *korisnicki_id : INTEGER <<FK>>
+  --
+  telesna_masa : FLOAT
+  obim_struka : FLOAT
+  kcal : INTEGER
+}
+
+
+Osoba ||-- Anketa
+' predlog je manjenjen tacnpo jednom korisniku
+Osoba ||-- Predlog
+' predlog je napisan od tacno jednog specjaliste, tj. trenera ili nutricioniste
+Osoba ||-- Predlog
+
+Osoba ||--o{ RedovnaObavestavanja
+
+@enduml
