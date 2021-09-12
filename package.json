@@ -1,0 +1,32 @@
+{
+  "name": "webispit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ognjenognjen123/webispit.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ognjenognjen123/webispit/issues"
+  },
+  "homepage": "https://github.com/ognjenognjen123/webispit#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.1",
+    "@types/express": "^4.17.13",
+    "@types/mysql": "^2.15.19",
+    "@types/node": "^16.9.1",
+    "typescript": "^4.4.3"
+  }
+}
