@@ -25,6 +25,7 @@ const sveOsobe = (callback: Function) => {
                     ime: row.ime,
                     prezime: row.prezime,
                     email: row.email,
+                    telefon: row.telefon,
                     lozinka: row.lozinka,
                 }
                 osobe.push(osoba);

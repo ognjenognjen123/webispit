@@ -9,6 +9,7 @@ export interface Osoba {
     ime: string
     prezime: string
     email: string
+    telefon: string
     lozinka: string
 }
 

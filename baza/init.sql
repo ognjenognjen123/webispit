@@ -9,13 +9,14 @@ CREATE OR REPLACE TABLE OSOBA (
   ime TINYTEXT,
   prezime TINYTEXT,
   email TINYTEXT unique,
+  telefon TINYTEXT unique,
   lozinka TINYTEXT
 );
 
-INSERT INTO OSOBA (tip, ime, prezime, email, lozinka) values
-('korisnik', 'djosa', 'dodjos', 'djosa@teretana.com', 'test'),
-('trener', 'misa', 'misic', 'misko@teretana.com', 'test'),
-('nutricionista', 'nutri', 'bulet', 'nutri@teretana.com', 'test');
+INSERT INTO OSOBA (tip, ime, prezime, email, telefon, lozinka) values
+('korisnik', 'djosa', 'dodjos', 'djosa@teretana.com', '061', 'test'),
+('trener', 'misa', 'misic', 'misko@teretana.com', '062', 'test'),
+('nutricionista', 'nutri', 'bulet', 'nutri@teretana.com', '063', 'test');
 
 CREATE OR REPLACE TABLE  ANKETA (
   korisnicki_id INTEGER primary key,

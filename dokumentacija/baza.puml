@@ -14,11 +14,12 @@ title Model baze
 entity Osoba {
   *id : INTEGER <<generisano>>
   --
-  *tip : ENUM (korisnik, trener, nutricionista)
-  *ime : TINYTEXT
-  *prezime : TINYTEXT
-  *email : TINYTEXT
-  *lozinka : TINYTEXT
+  tip : ENUM (korisnik, trener, nutricionista)
+  ime : TINYTEXT
+  prezime : TINYTEXT
+  email : TINYTEXT
+  telefon : TINYTEXT
+  lozinka : TINYTEXT
 }
 
 entity Anketa {
