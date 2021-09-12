@@ -1,12 +1,13 @@
-import {TipOsobe} from "./model";
-import {sacuvajOsobu} from "./baza";
+import express from "express";
+import * as bodyParser from "body-parser";
+import {ruter} from "./rute";
 
 
-sacuvajOsobu({
-    tip: TipOsobe.korisnik,
-    ime: 'aaa',
-    prezime: 'bbb',
-    telefon: '222',
-    email: 'email',
-    lozinka: 'test'
-},console.log)
+const app = express();
+
+app.use(bodyParser.json());
+app.use("/", ruter);
+
+app.listen(3000, () => {
+    console.log("Node server started running on port 3000");
+});

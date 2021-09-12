@@ -5,7 +5,7 @@ import {
     OsobaZaPrijavu,
     Predlog,
     RedovnoObavestavanje,
-    RedovnoObavestavanjeZaCuvanje
+    RedovnoObavestavanjeZaCuvanje, TipOsobe
 } from "./model";
 import mysql, {OkPacket, RowDataPacket} from 'mysql2';
 
@@ -18,13 +18,13 @@ export const db = mysql.createConnection({
 });
 
 //za potrebe pregleda svih korisnika od strane trenera i nutricioniste
-export function dohvatiSveOsobe(callback: Function) {
+export function dohvatiSveKorisnike(callback: Function) {
 
-    const upitBaze = 'SELECT * FROM OSOBA';
+    const upitBaze = 'SELECT * FROM OSOBA WHERE tip = ?';
 
     db.query(
         upitBaze,
-        [],
+        [TipOsobe.korisnik],
         (err, result) => {
             if (err) {
                 callback(err)
