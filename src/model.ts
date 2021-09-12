@@ -1,16 +1,23 @@
 export enum TipOsobe {
-    korisnik, trener, nutricionista
+    korisnik = 'korisnik',
+    trener = 'trener',
+    nutricionista = 'nutricionista'
 }
 
-export interface Osoba {
-    id: number
+export interface OsobaZaPrijavu {
+    email: string
+    lozinka: string
+}
 
+export interface OsobaZaCuvanje extends OsobaZaPrijavu{
     tip: TipOsobe
     ime: string
     prezime: string
-    email: string
     telefon: string
-    lozinka: string
+}
+
+export interface Osoba extends OsobaZaCuvanje{
+    id: number
 }
 
 export interface Anketa {
@@ -33,11 +40,14 @@ export interface Predlog {
     predlog: string
 }
 
-export interface RedovnaObavestavanja {
-    id: number
+export interface RedovnoObavestavanjeZaCuvanje {
     korisnicki_id: number
 
     telesna_masa: number
     obim_struka: number
     kcal: number
+}
+
+export interface RedovnoObavestavanje extends RedovnoObavestavanjeZaCuvanje{
+    id: number
 }
