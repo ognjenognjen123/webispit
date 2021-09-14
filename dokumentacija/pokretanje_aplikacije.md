@@ -21,3 +21,18 @@ Da bi pokrenuli FRONTEND aplikaciju:
 2. pokrenite naredbu: npm start
 
 FRONTEND aplikacija bice pokrenuta na portu 3000
+
+--
+Dostupni korisnici za potrebe testiranja:
+
+Korisnik:
+- email: djosa@teretana.com
+- lozinka: test
+
+Trener:
+- email: misko@teretana.com
+- lozinka: test
+
+Nutricionista:
+- email: nutri@teratana.com
+- lozinka: test
