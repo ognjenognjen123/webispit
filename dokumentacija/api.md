@@ -1,3 +1,5 @@
+## U ovom fajlu predstavljen je nacrt apija koji je realizovan u backendu a na osnovu teksta zadatka.
+
 > Korisnici se registruju unosom imena, prezimena, jedinstvene adrese elektronske pošte, jedinstvenog broja telefona i željene lozinke za nalog.
 ```
 POST
