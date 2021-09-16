@@ -1,112 +1,112 @@
-DROP DATABASE IF EXISTS web_ispit_baza;
-CREATE DATABASE web_ispit_baza;
-USE web_ispit_baza;
+drop database if exists web_ispit_baza;
+create database web_ispit_baza;
+use web_ispit_baza;
 
-CREATE OR REPLACE TABLE OSOBA (
-  id INTEGER auto_increment primary key,
+create or replace table osoba (
+  osoba_id integer auto_increment primary key,
 
-  tip ENUM ('korisnik', 'trener', 'nutricionista'),
-  ime TINYTEXT,
-  prezime TINYTEXT,
-  email TINYTEXT unique,
-  telefon TINYTEXT unique,
-  lozinka TINYTEXT
+  tip enum ('korisnik', 'trener', 'nutricionista'),
+  ime tinytext,
+  prezime tinytext,
+  email tinytext unique,
+  telefon tinytext unique,
+  lozinka tinytext
 );
 
-INSERT INTO OSOBA (tip, ime, prezime, email, telefon, lozinka) values
+insert into osoba (tip, ime, prezime, email, telefon, lozinka) values
 ('korisnik', 'djosa', 'dodjos', 'djosa@teretana.com', '061', 'test'),
 ('trener', 'misa', 'misic', 'misko@teretana.com', '062', 'test'),
 ('nutricionista', 'nutri', 'bulet', 'nutri@teretana.com', '063', 'test');
 
-CREATE OR REPLACE TABLE  ANKETA (
-  korisnicki_id INTEGER primary key,
+create or replace table  anketa (
+  fk_osoba_id integer primary key,
 
-  pol ENUM('muski', 'zenski', 'drugo'),
-  uzrast TINYTEXT,
-  visina FLOAT,
-  telesna_masa FLOAT,
-  obim_struka FLOAT,
-  kcal INTEGER,
-  opis_dnevnih_navika TEXT,
-  opis_zeljenih_rezultata TEXT,
+  pol enum('muski', 'zenski', 'drugo'),
+  uzrast tinytext,
+  visina float,
+  telesna_masa float,
+  obim_struka float,
+  kcal integer,
+  opis_dnevnih_navika text,
+  opis_zeljenih_rezultata text,
 
-  foreign key (korisnicki_id)
-      references OSOBA(id)
+  foreign key (fk_osoba_id)
+      references osoba(osoba_id)
       on delete cascade
 );
 
-INSERT INTO ANKETA (korisnicki_id, pol, uzrast, visina, telesna_masa, obim_struka, kcal, opis_dnevnih_navika, opis_zeljenih_rezultata) VALUES (
- (SELECT id FROM OSOBA WHERE tip = 'korisnik' LIMIT 1),
+insert into anketa (fk_osoba_id, pol, uzrast, visina, telesna_masa, obim_struka, kcal, opis_dnevnih_navika, opis_zeljenih_rezultata) values (
+ (select osoba_id from osoba where tip = 'korisnik' limit 1),
  'muski', 'dete', 167, 55.2, 80, 1800, 'najpre cokolada onda krompir i u krug', 'vise cokolade, manje krompira'
  );
 
-# DELETE FROM OSOBA WHERE id = 1; # demo kaskade
+# delete from osoba where id = 1; # demo kaskade
 
-CREATE OR REPLACE TABLE PREDLOG (
-  korisnicki_id INTEGER,
-  specialista_id INTEGER,
+create or replace table predlog (
+  fk_osoba_korisnik_id integer,
+  fk_osoba_specialista_id integer,
 
-  predlog TEXT,
+  predlog text,
 
-  primary key (korisnicki_id, specialista_id),
+  primary key (fk_osoba_korisnik_id, fk_osoba_specialista_id),
 
-  foreign key (korisnicki_id)
-      references OSOBA(id)
+  foreign key (fk_osoba_korisnik_id)
+      references osoba(osoba_id)
       on delete cascade,
 
-  foreign key (specialista_id)
-      references OSOBA(id)
+  foreign key (fk_osoba_specialista_id)
+      references osoba(osoba_id)
       on delete cascade
 );
 
-INSERT INTO PREDLOG (korisnicki_id, specialista_id, predlog) VALUES (
-    (SELECT id FROM OSOBA WHERE tip = 'korisnik' LIMIT 1),
-    (SELECT id FROM OSOBA WHERE tip = 'trener' LIMIT 1),
+insert into predlog (fk_osoba_korisnik_id, fk_osoba_specialista_id, predlog) values (
+    (select osoba_id from osoba where tip = 'korisnik' limit 1),
+    (select osoba_id from osoba where tip = 'trener' limit 1),
     'zgib svaki dan dok ne budes odmoran'
 ),(
-    (SELECT id FROM OSOBA WHERE tip = 'korisnik' LIMIT 1),
-    (SELECT id FROM OSOBA WHERE tip = 'nutricionista' LIMIT 1),
+    (select osoba_id from osoba where tip = 'korisnik' limit 1),
+    (select osoba_id from osoba where tip = 'nutricionista' limit 1),
     'jabuke plase doktore'
 );
 
-UPDATE PREDLOG SET predlog = 'samo zgibovi i propadanja!'
-WHERE korisnicki_id = (SELECT id FROM OSOBA WHERE tip = 'korisnik' LIMIT 1) AND
-      specialista_id = (SELECT id FROM OSOBA WHERE tip = 'trener' LIMIT 1);
+update predlog set predlog = 'samo zgibovi i propadanja!'
+where fk_osoba_korisnik_id = (select osoba_id from osoba where tip = 'korisnik' limit 1) and
+      fk_osoba_specialista_id = (select osoba_id from osoba where tip = 'trener' limit 1);
 
-CREATE OR REPLACE TABLE  REDOVNA_OBAVESTAVANJA (
-  id INTEGER auto_increment primary key,
-  korisnicki_id INTEGER,
+create or replace table  redovno_obavestavanje (
+  redovno_obavestavanje_id integer auto_increment primary key,
+  fk_osoba_id integer,
 
-  telesna_masa FLOAT,
-  obim_struka FLOAT,
-  kcal INTEGER,
+  telesna_masa float,
+  obim_struka float,
+  kcal integer,
 
-  foreign key (korisnicki_id)
-      references OSOBA(id)
+  foreign key (fk_osoba_id)
+      references osoba(osoba_id)
       on delete cascade
 );
 
-INSERT INTO REDOVNA_OBAVESTAVANJA (korisnicki_id, telesna_masa, obim_struka, kcal) VALUES (
-    (SELECT id FROM OSOBA WHERE tip = 'korisnik' LIMIT 1),
-    56, 82, NULL
+insert into redovno_obavestavanje (fk_osoba_id, telesna_masa, obim_struka, kcal) values (
+    (select osoba_id from osoba where tip = 'korisnik' limit 1),
+    56, 82, null
 ),(
-    (SELECT id FROM OSOBA WHERE tip = 'korisnik' LIMIT 1),
+    (select osoba_id from osoba where tip = 'korisnik' limit 1),
     58, 85, 1400
 ),(
-    (SELECT id FROM OSOBA WHERE tip = 'korisnik' LIMIT 1),
-    56, 81, NULL
+    (select osoba_id from osoba where tip = 'korisnik' limit 1),
+    56, 81, null
 ),(
-    (SELECT id FROM OSOBA WHERE tip = 'korisnik' LIMIT 1),
+    (select osoba_id from osoba where tip = 'korisnik' limit 1),
     57, 88, 1600
 );
 
 
-SELECT * FROM OSOBA
-WHERE tip = 'korisnik';
+select * from osoba
+where tip = 'korisnik';
 
-SELECT * FROM ANKETA
-WHERE korisnicki_id = 1;
+select * from anketa
+where fk_osoba_id = 1;
 
-SELECT * FROM REDOVNA_OBAVESTAVANJA
-WHERE korisnicki_id = 1;
+select * from redovno_obavestavanje
+where fk_osoba_id = 1;
 

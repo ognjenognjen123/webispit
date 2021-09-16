@@ -11,8 +11,8 @@
 
 title Model baze
 
-entity Osoba {
-  *id : INTEGER <<generisano>>
+entity osoba {
+  *osoba_id : INTEGER <<generisano>>
   --
   tip : ENUM (korisnik, trener, nutricionista)
   ime : TINYTEXT
@@ -22,8 +22,8 @@ entity Osoba {
   lozinka : TINYTEXT
 }
 
-entity Anketa {
-  *korisnicki_id : INTEGER <<FK>>
+entity anketa {
+  *fk_osoba_id : INTEGER <<FK>>
   --
   pol : TINYTEXT
   uzrast : TINYTEXT
@@ -35,16 +35,16 @@ entity Anketa {
   opis_zeljenih_rezultata : TEXT
 }
 
-entity Predlog {
-  *korisnicki_id : INTEGER <<FK>>
-  *specialista_id : INTEGER <<FK>>
+entity predlog {
+  *fk_osoba_korisnik_id : INTEGER <<FK>>
+  *fk_osoba_specialista_id : INTEGER <<FK>>
   --
   predlog : TEXT
 }
 
-entity RedovnaObavestavanja {
-  *id : INTEGER <<generisano>>
-  *korisnicki_id : INTEGER <<FK>>
+entity redovna_obavestavanja {
+  *redovna_obavestenja_id : INTEGER <<generisano>>
+  *fk_osoba_id : INTEGER <<FK>>
   --
   telesna_masa : FLOAT
   obim_struka : FLOAT
@@ -52,12 +52,12 @@ entity RedovnaObavestavanja {
 }
 
 
-Osoba ||-- Anketa
+osoba ||-- anketa
 ' predlog je manjenjen tacnpo jednom korisniku
-Osoba ||-- Predlog
+osoba ||-- predlog
 ' predlog je napisan od tacno jednog specjaliste, tj. trenera ili nutricioniste
-Osoba ||-- Predlog
+osoba ||-- predlog
 
-Osoba ||--o{ RedovnaObavestavanja
+osoba ||--o{ redovna_obavestavanja
 
 @enduml
